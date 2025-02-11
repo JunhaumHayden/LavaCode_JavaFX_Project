@@ -25,7 +25,7 @@ public class OrdemDeServico {
     private BigDecimal desconto;
     private Date agenda;
     private EStatus status;
-    private List<ItemOs> itens;
+    private List<ItemDeOrdemDeServico> itens;
     private Veiculo veiculo;
 
     //construtor padrao
@@ -118,11 +118,11 @@ public class OrdemDeServico {
         this.setTotal();
     }
 
-    public List<ItemOs> getItens() {
+    public List<ItemDeOrdemDeServico> getItens() {
         return itens;
     }
 
-    public void addItemOS(ItemOs itemOS) throws ExceptionLavacao {
+    public void addItemOS(ItemDeOrdemDeServico itemDeOrdemDeServico) throws ExceptionLavacao {
         try {
             if (!OrdemDeServicoService.podeAlterar(this)) {
                 throw new ExceptionLavacao("OS Fechada não pode ser alterada.");
@@ -130,12 +130,12 @@ public class OrdemDeServico {
         } catch (ExceptionLavacao ex) {
             AlertDialog.exceptionMessage(ex);
         }
-        itemOS.setOrdemDeServico(this); // Vincula a ordem de serviço ao item
-        this.itens.add(itemOS);
+        itemDeOrdemDeServico.setOrdemDeServico(this); // Vincula a ordem de serviço ao item
+        this.itens.add(itemDeOrdemDeServico);
         this.setTotal();
     }
 
-    public void removeItemOS(ItemOs itemOS) throws ExceptionLavacao {
+    public void removeItemOS(ItemDeOrdemDeServico itemDeOrdemDeServico) throws ExceptionLavacao {
         try {
             if (!OrdemDeServicoService.podeAlterar(this)) {
                 throw new ExceptionLavacao("OS Fechada não pode ser alterada.");
@@ -143,11 +143,11 @@ public class OrdemDeServico {
         } catch (ExceptionLavacao ex) {
             AlertDialog.exceptionMessage(ex);
         }
-        this.itens.remove(itemOS);
+        this.itens.remove(itemDeOrdemDeServico);
         this.setTotal();
     }
 
-    public void setItens(List<ItemOs> itens) throws ExceptionLavacao {
+    public void setItens(List<ItemDeOrdemDeServico> itens) throws ExceptionLavacao {
         try {
             if (!OrdemDeServicoService.podeAlterar(this)) {
                 throw new ExceptionLavacao("OS Fechada não pode ser alterada.");
@@ -175,6 +175,14 @@ public class OrdemDeServico {
             AlertDialog.exceptionMessage(ex);
         }
         this.veiculo = veiculo;
+    }
+
+    //O métodos para fornecer uma representação de string da instância.
+    public String getPlaca() {
+        return veiculo.getPlaca() != null ? veiculo.getPlaca() : "";
+    }
+    public String getCliente() {
+        return veiculo.getCliente().getNome() != null ? veiculo.getCliente().getNome() : "";
     }
 
     //O método toString() para fornecer uma representação de string da instância.

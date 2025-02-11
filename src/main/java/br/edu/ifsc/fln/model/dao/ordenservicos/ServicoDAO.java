@@ -2,6 +2,7 @@ package br.edu.ifsc.fln.model.dao.ordenservicos;
 
 import br.edu.ifsc.fln.model.domain.ordemServicos.Servico;
 import br.edu.ifsc.fln.model.domain.ECategoria;
+import br.edu.ifsc.fln.utils.AlertDialog;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -116,6 +117,26 @@ public class ServicoDAO {
         }
         return retorno;
     }
+
+    // Listar todos os serviços por categoria
+    public List<Servico> listarPorCategoria(ECategoria categoria) {
+        List<Servico> servicos = new ArrayList<>();
+        String sql = "SELECT * FROM Servico WHERE categoria = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, categoria.name());
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    servicos.add(criarServico(rs));
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, "Por favor, Cadastrar serviço para esta categoria de Veiculo!", ex);
+            AlertDialog.exceptionMessage(ex);
+        }
+        return servicos;
+    }
+
+
 
     // Listar todos os serviços
     public List<Servico> listar() {

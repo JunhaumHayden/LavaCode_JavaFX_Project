@@ -4,7 +4,7 @@ import br.edu.ifsc.fln.exceptions.ExceptionLavacao;
 import br.edu.ifsc.fln.model.dao.clientes.PontuacaoDAO;
 import br.edu.ifsc.fln.model.dao.veiculos.VeiculoDAO;
 import br.edu.ifsc.fln.model.domain.ordemServicos.EStatus;
-import br.edu.ifsc.fln.model.domain.ordemServicos.ItemOs;
+import br.edu.ifsc.fln.model.domain.ordemServicos.ItemDeOrdemDeServico;
 import br.edu.ifsc.fln.model.domain.ordemServicos.OrdemDeServico;
 import br.edu.ifsc.fln.model.domain.veiculos.Veiculo;
 import br.edu.ifsc.fln.utils.AlertDialog;
@@ -39,10 +39,10 @@ public class OrdemDeServicoDAO {
                     }
                 }
             }
-            ItemOsDAO itemOsDAO = new ItemOsDAO(connection);
-            for (ItemOs item : os.getItens()) {
+            ItemDeOrdemDeServicoDAO itemDeOrdemDeServicoDAO = new ItemDeOrdemDeServicoDAO(connection);
+            for (ItemDeOrdemDeServico item : os.getItens()) {
                 item.setOrdemDeServico(os);
-                ItemOs resultado = itemOsDAO.inserir(item);
+                ItemDeOrdemDeServico resultado = itemDeOrdemDeServicoDAO.inserir(item);
                 if (resultado != null) {
                     item.setId(resultado.getId());
                     item.setValorServico(resultado.getValorServico());
@@ -71,12 +71,12 @@ public class OrdemDeServicoDAO {
         stmt.setString(4, os.getStatus().name());
         stmt.setInt(5, os.getId());
 
-        ItemOsDAO itemOsDAO = new ItemOsDAO(connection);
-        for (ItemOs item : os.getItens()) {
+        ItemDeOrdemDeServicoDAO itemDeOrdemDeServicoDAO = new ItemDeOrdemDeServicoDAO(connection);
+        for (ItemDeOrdemDeServico item : os.getItens()) {
             if (item.getId() > 0) {
-                itemOsDAO.alterar(item);
+                itemDeOrdemDeServicoDAO.alterar(item);
             } else {
-                itemOsDAO.inserir(item);
+                itemDeOrdemDeServicoDAO.inserir(item);
             }
         }
         if (os.getStatus() == EStatus.FECHADA){
@@ -168,8 +168,8 @@ public class OrdemDeServicoDAO {
         veiculo = veiculoDAO.buscar(veiculo);
         os.setVeiculo(veiculo);
         // Obtendo os itens da Ordem de Serviço
-        ItemOsDAO itemOsDAO = new ItemOsDAO(connection);
-        os.setItens(itemOsDAO.listarPorOs(os));
+        ItemDeOrdemDeServicoDAO itemDeOrdemDeServicoDAO = new ItemDeOrdemDeServicoDAO(connection);
+        os.setItens(itemDeOrdemDeServicoDAO.listarPorOs(os));
         os.setStatus(EStatus.valueOf(rs.getString("status")));
         return os;
     }

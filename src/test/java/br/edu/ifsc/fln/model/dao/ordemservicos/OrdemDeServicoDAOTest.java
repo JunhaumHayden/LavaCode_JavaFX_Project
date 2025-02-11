@@ -1,11 +1,11 @@
 package br.edu.ifsc.fln.model.dao.ordemservicos;
 
 import br.edu.ifsc.fln.exceptions.ExceptionLavacao;
-import br.edu.ifsc.fln.model.dao.ordenservicos.ItemOsDAO;
+import br.edu.ifsc.fln.model.dao.ordenservicos.ItemDeOrdemDeServicoDAO;
 import br.edu.ifsc.fln.model.dao.ordenservicos.OrdemDeServicoDAO;
 import br.edu.ifsc.fln.model.dao.ordenservicos.ServicoDAO;
 import br.edu.ifsc.fln.model.dao.veiculos.VeiculoDAO;
-import br.edu.ifsc.fln.model.domain.ordemServicos.ItemOs;
+import br.edu.ifsc.fln.model.domain.ordemServicos.ItemDeOrdemDeServico;
 import br.edu.ifsc.fln.model.domain.ordemServicos.OrdemDeServico;
 import br.edu.ifsc.fln.model.domain.ordemServicos.Servico;
 import br.edu.ifsc.fln.model.domain.ordemServicos.EStatus;
@@ -17,7 +17,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class OrdemDeServicoDAOTest {
     private ServicoDAO servicoDAO;
     private VeiculoDAO veiculoDAO;
     private OrdemDeServicoDAO ordemDeServicoDAO;
-    private ItemOsDAO itemOsDAO;
+    private ItemDeOrdemDeServicoDAO itemDeOrdemDeServicoDAO;
     private Connection connection;
 
     @BeforeAll
@@ -40,7 +39,7 @@ public class OrdemDeServicoDAOTest {
         servicoDAO = new ServicoDAO(connection);
         veiculoDAO = new VeiculoDAO(connection);
         ordemDeServicoDAO = new OrdemDeServicoDAO(connection);
-        itemOsDAO = new ItemOsDAO(connection);
+        itemDeOrdemDeServicoDAO = new ItemDeOrdemDeServicoDAO(connection);
         // Criar tabelas cliente e veiculo e inserir dados de teste
         try (Statement stmt = connection.createStatement()) {
             stmt.execute("CREATE TABLE IF NOT EXISTS cliente (id INT AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(255), telefone VARCHAR(255), email VARCHAR(255), data_cadastro DATE)");
@@ -238,7 +237,7 @@ public class OrdemDeServicoDAOTest {
         os.setStatus(EStatus.ABERTA);
 
         Servico servico01 = servicoDAO.buscarPorId(1);
-        ItemOs item = new ItemOs();
+        ItemDeOrdemDeServico item = new ItemDeOrdemDeServico();
         item.setObservacao("Observação do teste com item de OS");
         item.setServico(servico01);
         os.addItemOS(item);
@@ -281,13 +280,13 @@ public class OrdemDeServicoDAOTest {
         OrdemDeServico insertedOs = ordemDeServicoDAO.inserir(os);
 
         Servico servico02 = servicoDAO.buscarPorId(2);
-        ItemOs item02 = new ItemOs();
+        ItemDeOrdemDeServico item02 = new ItemDeOrdemDeServico();
         item02.setObservacao("Observação do teste alterar os itens da OS");
         item02.setServico(servico02);
         insertedOs.addItemOS(item02);
 
         Servico servico03 = servicoDAO.buscarPorId(3);
-        ItemOs item03 = new ItemOs();
+        ItemDeOrdemDeServico item03 = new ItemDeOrdemDeServico();
         item03.setObservacao("Observação 02 do teste alterar os itens da OS");
         item03.setServico(servico03);
         insertedOs.addItemOS(item03);
@@ -327,13 +326,13 @@ public class OrdemDeServicoDAOTest {
         OrdemDeServico insertedOs = ordemDeServicoDAO.inserir(os);
 
         Servico servico02 = servicoDAO.buscarPorId(2);
-        ItemOs item02 = new ItemOs();
+        ItemDeOrdemDeServico item02 = new ItemDeOrdemDeServico();
         item02.setObservacao("Observação do teste alterar os itens da OS");
         item02.setServico(servico02);
         insertedOs.addItemOS(item02);
 
         Servico servico03 = servicoDAO.buscarPorId(3);
-        ItemOs item03 = new ItemOs();
+        ItemDeOrdemDeServico item03 = new ItemDeOrdemDeServico();
         item03.setObservacao("Observação 02 do teste alterar os itens da OS");
         item03.setServico(servico03);
         insertedOs.addItemOS(item03);
@@ -346,7 +345,7 @@ public class OrdemDeServicoDAOTest {
         assertEquals(TotalOs, updatedOs.getTotal(), "O valor total da OS deve ter sido alterado.");
         assertEquals(2, updatedOs.getItens().size(), "A lista de itens de OS deve conter exatamente 2 item.");
 
-        boolean removed = itemOsDAO.remover(insertedOs.getItens().get(1));
+        boolean removed = itemDeOrdemDeServicoDAO.remover(insertedOs.getItens().get(1));
         assertTrue(removed);
 
         OrdemDeServico updatedOs02 = ordemDeServicoDAO.buscarPorId(insertedOs.getId());
@@ -389,13 +388,13 @@ public class OrdemDeServicoDAOTest {
         OrdemDeServico insertedOs = ordemDeServicoDAO.inserir(os);
 
         Servico servico02 = servicoDAO.buscarPorId(2);
-        ItemOs item02 = new ItemOs();
+        ItemDeOrdemDeServico item02 = new ItemDeOrdemDeServico();
         item02.setObservacao("Observação do teste alterar os itens da OS");
         item02.setServico(servico02);
         insertedOs.addItemOS(item02);
 
         Servico servico03 = servicoDAO.buscarPorId(3);
-        ItemOs item03 = new ItemOs();
+        ItemDeOrdemDeServico item03 = new ItemDeOrdemDeServico();
         item03.setObservacao("Observação 02 do teste alterar os itens da OS");
         item03.setServico(servico03);
         insertedOs.addItemOS(item03);
@@ -422,7 +421,7 @@ public class OrdemDeServicoDAOTest {
         assertEquals(EStatus.FECHADA, insertedOs02.getStatus(), "A deve constar como FECHADA.");
         assertEquals(EStatus.FECHADA, insertedOs02.getItens().get(1).getOrdemDeServico().getStatus(), "A deve constar como FECHADA.");
 
-        boolean removed = itemOsDAO.remover(insertedOs02.getItens().get(1));
+        boolean removed = itemDeOrdemDeServicoDAO.remover(insertedOs02.getItens().get(1));
         assertFalse(removed);
         insertedOs02.setDesconto(new BigDecimal("00.00"));
         insertedOs02.setAgenda(new Date(System.currentTimeMillis()));

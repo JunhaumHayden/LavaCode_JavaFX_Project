@@ -1,10 +1,9 @@
 package br.edu.ifsc.fln.service;
 
 import br.edu.ifsc.fln.exceptions.ExceptionLavacao;
-import br.edu.ifsc.fln.model.dao.ordenservicos.OrdemDeServicoDAO;
 import br.edu.ifsc.fln.model.domain.ordemServicos.OrdemDeServico;
 import br.edu.ifsc.fln.model.domain.ordemServicos.EStatus;
-import br.edu.ifsc.fln.model.domain.ordemServicos.ItemOs;
+import br.edu.ifsc.fln.model.domain.ordemServicos.ItemDeOrdemDeServico;
 import br.edu.ifsc.fln.utils.AlertDialog;
 
 import java.math.BigDecimal;
@@ -41,7 +40,7 @@ public class OrdemDeServicoService {
 
     public static BigDecimal calcularServico(OrdemDeServico os) {
         BigDecimal totalServico = BigDecimal.ZERO;
-        for (ItemOs item : os.getItens()) {
+        for (ItemDeOrdemDeServico item : os.getItens()) {
             totalServico = totalServico.add(item.getValorServico());
         }
         return totalServico.subtract(os.getDesconto());
@@ -49,7 +48,7 @@ public class OrdemDeServicoService {
 
     public static int calcularPontos(OrdemDeServico os) {
         int totalPontos = 0;
-        for (ItemOs item : os.getItens()) {
+        for (ItemDeOrdemDeServico item : os.getItens()) {
             totalPontos += item.getServico().getPontos();
         }
         return totalPontos;

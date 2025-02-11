@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS servico (
 ) ENGINE=InnoDB;
 
 -- Tabela para Ordem de Serviço
-CREATE TABLE ordem_servico (
+CREATE TABLE IF NOT EXISTS ordem_servico (
                                 id INT AUTO_INCREMENT,
                                 numero VARCHAR(255) NOT NULL UNIQUE,
                                 total DECIMAL(10, 2),
@@ -114,7 +114,7 @@ CREATE TABLE ordem_servico (
 ) ENGINE=InnoDB;
 
 -- Tabela para itens da Ordem de Serviço
-CREATE TABLE item_os (
+CREATE TABLE IF NOT EXISTS item_os (
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         observacao TEXT,
                         valor_servico DECIMAL(10, 2) NOT NULL,
@@ -228,11 +228,11 @@ VALUES
 
 INSERT INTO item_os (observacao, valor_servico, id_servico, id_ordemServico)
 VALUES
-    ('Troca de óleo completa', 100.00, 1, 10001),
-    ('Lavagem interna e externa', 50.00, 2, 10001),
-    ('Troca de filtro de ar', 120.00, 3, 10002),
-    ('Alinhamento e balanceamento', 80.00, 4, 10002),
-    ('Higienização do ar-condicionado', 150.00, 5, 10003);
+    ('Troca de óleo completa', 100.00, 1, 1),
+    ('Lavagem interna e externa', 50.00, 2, 2),
+    ('Troca de filtro de ar', 120.00, 3, 3),
+    ('Alinhamento e balanceamento', 80.00, 4, 3),
+    ('Higienização do ar-condicionado', 150.00, 5, 3);
 
 
 -- Consultar todos os clientes

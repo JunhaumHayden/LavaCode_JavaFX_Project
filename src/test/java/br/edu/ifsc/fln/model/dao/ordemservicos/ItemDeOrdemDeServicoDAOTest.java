@@ -1,9 +1,9 @@
 package br.edu.ifsc.fln.model.dao.ordemservicos;
 
-import br.edu.ifsc.fln.model.dao.ordenservicos.ItemOsDAO;
+import br.edu.ifsc.fln.model.dao.ordenservicos.ItemDeOrdemDeServicoDAO;
 import br.edu.ifsc.fln.model.dao.ordenservicos.OrdemDeServicoDAO;
 import br.edu.ifsc.fln.model.dao.ordenservicos.ServicoDAO;
-import br.edu.ifsc.fln.model.domain.ordemServicos.ItemOs;
+import br.edu.ifsc.fln.model.domain.ordemServicos.ItemDeOrdemDeServico;
 import br.edu.ifsc.fln.model.domain.ordemServicos.OrdemDeServico;
 import br.edu.ifsc.fln.model.domain.ordemServicos.Servico;
 import br.edu.ifsc.fln.service.OrdemDeServicoService;
@@ -20,9 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ItemOsDAOTest {
+public class ItemDeOrdemDeServicoDAOTest {
 
-    private ItemOsDAO itemOsDAO;
+    private ItemDeOrdemDeServicoDAO itemOsDAO;
     private ServicoDAO servicoDAO;
     private OrdemDeServicoDAO ordemDeServicoDAO;
     private Connection connection;
@@ -31,7 +31,7 @@ public class ItemOsDAOTest {
     void setupDatabase() throws SQLException {
         // Configuração da conexão com o banco de dados
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "java", "java");
-        itemOsDAO = new ItemOsDAO(connection);
+        itemOsDAO = new ItemDeOrdemDeServicoDAO(connection);
         servicoDAO = new ServicoDAO(connection);
         ordemDeServicoDAO = new OrdemDeServicoDAO(connection);
         // Criar tabelas cliente e veiculo e inserir dados de teste
@@ -195,15 +195,15 @@ public class ItemOsDAOTest {
         Servico servico01 = servicoDAO.buscarPorId(1);
         OrdemDeServico os = ordemDeServicoDAO.buscarPorId(1);
 
-        ItemOs itemOs = new ItemOs("Troca de óleo",  servico01);
-        itemOs.setOrdemDeServico(os);
+        ItemDeOrdemDeServico itemDeOrdemDeServico = new ItemDeOrdemDeServico("Troca de óleo",  servico01);
+        itemDeOrdemDeServico.setOrdemDeServico(os);
         // Executando o método
-        ItemOs resultado = itemOsDAO.inserir(itemOs);
+        ItemDeOrdemDeServico resultado = itemOsDAO.inserir(itemDeOrdemDeServico);
         // Verificando os resultados
         assertNotNull(resultado);
-        assertTrue(itemOs.getId() > 0, "O ID do item de OS deveria ter sido gerado.");
-        assertTrue(itemOs.getValorServico().compareTo(BigDecimal.ZERO) > 0, "O Valor do item de OS deveria ter sido gerado.");
-        assertTrue(itemOs.getValorServico().compareTo(servico01.getValor()) == 0, "O valor do item de OS deve ser igual ao valor do serviço.");
+        assertTrue(itemDeOrdemDeServico.getId() > 0, "O ID do item de OS deveria ter sido gerado.");
+        assertTrue(itemDeOrdemDeServico.getValorServico().compareTo(BigDecimal.ZERO) > 0, "O Valor do item de OS deveria ter sido gerado.");
+        assertTrue(itemDeOrdemDeServico.getValorServico().compareTo(servico01.getValor()) == 0, "O valor do item de OS deve ser igual ao valor do serviço.");
 
 
     }
@@ -211,27 +211,27 @@ public class ItemOsDAOTest {
     @Test
     @Order(2)
     void testBuscarPorId() throws SQLException {
-        ItemOs itemOs = itemOsDAO.buscarPorId(1);
+        ItemDeOrdemDeServico itemDeOrdemDeServico = itemOsDAO.buscarPorId(1);
 
-        assertNotNull(itemOs, "O item de OS com ID 1 deve existir.");
-        assertEquals("Troca de óleo", itemOs.getObservacao(), "A descrição do item de OS deve ser 'Troca de óleo'.");
+        assertNotNull(itemDeOrdemDeServico, "O item de OS com ID 1 deve existir.");
+        assertEquals("Troca de óleo", itemDeOrdemDeServico.getObservacao(), "A descrição do item de OS deve ser 'Troca de óleo'.");
     }
 
     @Test
     @Order(3)
     void testAtualizar() throws SQLException {
         Servico servico02 = servicoDAO.buscarPorId(2);
-        ItemOs itemOs = itemOsDAO.buscarPorId(1);
-        assertNotNull(itemOs, "O item de OS com ID 1 deve existir para ser atualizado.");
+        ItemDeOrdemDeServico itemDeOrdemDeServico = itemOsDAO.buscarPorId(1);
+        assertNotNull(itemDeOrdemDeServico, "O item de OS com ID 1 deve existir para ser atualizado.");
 
-        itemOs.setObservacao("Troca de filtro de ar");
-        itemOs.setServico(servico02);
-        itemOsDAO.alterar(itemOs);
+        itemDeOrdemDeServico.setObservacao("Troca de filtro de ar");
+        itemDeOrdemDeServico.setServico(servico02);
+        itemOsDAO.alterar(itemDeOrdemDeServico);
 
-        ItemOs itemOsAtualizado = itemOsDAO.buscarPorId(1);
-        assertEquals("Troca de filtro de ar", itemOsAtualizado.getObservacao(), "A descrição deve ser 'Troca de filtro de ar'.");
-        assertNotEquals(itemOsAtualizado.getValorServico().compareTo(servico02.getValor()) == 0, "O valor do item de OS não deve ser alterado.");
-        assertNotEquals(servico02, itemOsAtualizado.getServico(), "O serviço do item de OS não deve ser alterado.");
+        ItemDeOrdemDeServico itemDeOrdemDeServicoAtualizado = itemOsDAO.buscarPorId(1);
+        assertEquals("Troca de filtro de ar", itemDeOrdemDeServicoAtualizado.getObservacao(), "A descrição deve ser 'Troca de filtro de ar'.");
+        assertNotEquals(itemDeOrdemDeServicoAtualizado.getValorServico().compareTo(servico02.getValor()) == 0, "O valor do item de OS não deve ser alterado.");
+        assertNotEquals(servico02, itemDeOrdemDeServicoAtualizado.getServico(), "O serviço do item de OS não deve ser alterado.");
     }
 
     @Test
@@ -242,12 +242,12 @@ public class ItemOsDAOTest {
         os.setId(2);
         os.setNumero(OrdemDeServicoService.gerarNumeroOrdem());
 
-        ItemOs itemOs = new ItemOs("Lavar geral",  servico01);
-        itemOs.setOrdemDeServico(os);
+        ItemDeOrdemDeServico itemDeOrdemDeServico = new ItemDeOrdemDeServico("Lavar geral",  servico01);
+        itemDeOrdemDeServico.setOrdemDeServico(os);
         // Executando o método
-        itemOsDAO.inserir(itemOs);
+        itemOsDAO.inserir(itemDeOrdemDeServico);
 
-        List<ItemOs> itensOs = itemOsDAO.listar();
+        List<ItemDeOrdemDeServico> itensOs = itemOsDAO.listar();
         assertFalse(itensOs.isEmpty(), "A lista de itens de OS não deve estar vazia.");
         assertEquals(2, itensOs.size(), "A lista de itens de OS deve conter exatamente 2 item.");
     }
@@ -255,9 +255,9 @@ public class ItemOsDAOTest {
     @Test
     @Order(5)
     void testRemover() throws SQLException {
-        ItemOs itemOs = itemOsDAO.buscarPorId(1);
-        itemOsDAO.remover(itemOs);
-        itemOs = itemOsDAO.buscarPorId(1);
-        assertNull(itemOs, "O item de OS com ID 1 deve ser nulo após ser removido.");
+        ItemDeOrdemDeServico itemDeOrdemDeServico = itemOsDAO.buscarPorId(1);
+        itemOsDAO.remover(itemDeOrdemDeServico);
+        itemDeOrdemDeServico = itemOsDAO.buscarPorId(1);
+        assertNull(itemDeOrdemDeServico, "O item de OS com ID 1 deve ser nulo após ser removido.");
     }
 }

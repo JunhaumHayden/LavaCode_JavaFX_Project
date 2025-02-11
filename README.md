@@ -185,8 +185,8 @@ namespace PacketOS {
         -float desconto
         -Date agenda: não
         +calcularServico() double
-        +add(itemOS: ItemOS) void
-        +remove(itemOS: ItemOS) void
+        +add(itemDeOrdemDeServico: ItemOS) void
+        +remove(itemDeOrdemDeServico: ItemOS) void
     }
 }
 

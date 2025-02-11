@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 * 
 */
 
-public class ItemOs {
+public class ItemDeOrdemDeServico {
     private int id;
     private String observacao;
     private BigDecimal valorServico = BigDecimal.ZERO;
@@ -19,7 +19,7 @@ public class ItemOs {
     private OrdemDeServico ordemDeServico;
 
     // Construtores
-    public ItemOs() {}
+    public ItemDeOrdemDeServico() {}
     //construtor sobrecarregado
     /**
      * Cria um item de OS vinculando um servico a uma ordem de servico e armazena o valor do servico para ser usado na Ordem de Servico.
@@ -28,7 +28,7 @@ public class ItemOs {
      * @param servico Um objeto do tipo Servico será vinculado a uma Ordem de Servico.
      * 
      */
-    public ItemOs(String observacao, Servico servico) {
+    public ItemDeOrdemDeServico(String observacao, Servico servico) {
         this.observacao = observacao;
         this.servico = servico;
     }
