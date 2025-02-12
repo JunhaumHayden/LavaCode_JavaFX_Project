@@ -7,6 +7,7 @@ import br.edu.ifsc.fln.model.domain.ordemServicos.EStatus;
 import br.edu.ifsc.fln.model.domain.ordemServicos.ItemDeOrdemDeServico;
 import br.edu.ifsc.fln.model.domain.ordemServicos.OrdemDeServico;
 import br.edu.ifsc.fln.model.domain.veiculos.Veiculo;
+import br.edu.ifsc.fln.service.OrdemDeServicoService;
 import br.edu.ifsc.fln.utils.AlertDialog;
 
 import java.sql.*;
@@ -26,10 +27,11 @@ public class OrdemDeServicoDAO {
         String sql = "INSERT INTO ordem_servico (numero, total, desconto, agenda, id_veiculo, status) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(false);
+            os.setNumero(OrdemDeServicoService.gerarNumeroOrdem());
             stmt.setString(1, os.getNumero());
             stmt.setBigDecimal(2, os.getTotal());
             stmt.setBigDecimal(3, os.getDesconto());
-            stmt.setDate(4, new java.sql.Date(os.getAgenda().getTime()));
+            stmt.setDate(4, Date.valueOf(os.getAgenda()));
             stmt.setInt(5, os.getVeiculo().getId());
             stmt.setString(6, EStatus.ABERTA.name());
             if (stmt.executeUpdate() > 0) { //verifica se o número de linhas afetadas é maior que zero.
@@ -67,7 +69,7 @@ public class OrdemDeServicoDAO {
         connection.setAutoCommit(false);
         stmt.setBigDecimal(1, os.getTotal());
         stmt.setBigDecimal(2, os.getDesconto());
-        stmt.setDate(3, new java.sql.Date(os.getAgenda().getTime()));
+        stmt.setDate(3, Date.valueOf(os.getAgenda()));
         stmt.setString(4, os.getStatus().name());
         stmt.setInt(5, os.getId());
 
@@ -162,7 +164,7 @@ public class OrdemDeServicoDAO {
         os.setId(rs.getInt("id"));
         os.setNumero(rs.getString("numero"));
         os.setDesconto(rs.getBigDecimal("desconto"));
-        os.setAgenda(rs.getDate("agenda"));
+        os.setAgenda(rs.getDate("agenda").toLocalDate());
         veiculo.setId(rs.getInt("id_veiculo"));
         VeiculoDAO veiculoDAO = new VeiculoDAO(connection);
         veiculo = veiculoDAO.buscar(veiculo);

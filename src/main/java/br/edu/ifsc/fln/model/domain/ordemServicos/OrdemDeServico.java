@@ -6,8 +6,8 @@ import br.edu.ifsc.fln.service.OrdemDeServicoService;
 import br.edu.ifsc.fln.utils.AlertDialog;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,7 +23,7 @@ public class OrdemDeServico {
     private String numero;
     private BigDecimal total;
     private BigDecimal desconto;
-    private Date agenda;
+    private LocalDate agenda;
     private EStatus status;
     private List<ItemDeOrdemDeServico> itens;
     private Veiculo veiculo;
@@ -34,7 +34,6 @@ public class OrdemDeServico {
      */
     public OrdemDeServico() {
         this.itens = new ArrayList<>();
-        this.agenda = new Date();
         this.status = EStatus.ABERTA;
         this.total = BigDecimal.ZERO;
     }
@@ -94,11 +93,11 @@ public class OrdemDeServico {
         this.desconto = desconto;
     }
 
-    public Date getAgenda() {
+    public LocalDate getAgenda() {
         return agenda;
     }
 
-    public void setAgenda(Date agenda)throws ExceptionLavacao {
+    public void setAgenda(LocalDate agenda)throws ExceptionLavacao {
         try {
             if (!OrdemDeServicoService.podeAlterar(this)) {
                 throw new ExceptionLavacao("OS Fechada não pode ser alterada.");
@@ -168,6 +167,9 @@ public class OrdemDeServico {
             if (!OrdemDeServicoService.podeAlterar(this)) {
             throw new ExceptionLavacao("OS Fechada não pode ser alterada.");
             }
+            if (this.veiculo != null && this.veiculo.equals(veiculo)) {
+                return; // Não faz nada se o veículo passado for igual ao atual
+            }
             if (this.veiculo != null) {
                 throw new ExceptionLavacao("OS já esta vinculada ao veiculo " + this.getVeiculo().getPlaca());
             }
@@ -176,6 +178,8 @@ public class OrdemDeServico {
         }
         this.veiculo = veiculo;
     }
+
+
 
     //O métodos para fornecer uma representação de string da instância.
     public String getPlaca() {

@@ -74,6 +74,14 @@ public class ItemDeOrdemDeServico {
         this.ordemDeServico = ordemDeServico;
     }
 
+    //O métodos para fornecer uma representação de string da instância.
+    public BigDecimal getValor() {
+        return servico.getValor();
+    }
+    public int getQuantidade() {
+        return 1;
+    }
+
     @Override
     public String toString() {
         return  "\n       Servico.........:" + servico +
