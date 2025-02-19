@@ -75,7 +75,7 @@ public class FXMLAnchorPaneRelatorioOrdemDeServicoAbertaController implements In
     
     private void carregarTableView() {
         try {
-            listaOrdemDeServicos = osDAO.listar();
+            listaOrdemDeServicos = osDAO.listarOrdensAbertas();
         } catch (SQLException ex) {
             Logger.getLogger(FXMLAnchorPaneRelatorioOrdemDeServicoAbertaController.class.getName()).log(Level.SEVERE, null, ex);
             AlertDialog.exceptionMessage(ex);

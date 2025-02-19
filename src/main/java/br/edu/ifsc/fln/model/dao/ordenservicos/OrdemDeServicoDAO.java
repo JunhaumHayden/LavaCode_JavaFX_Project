@@ -124,6 +124,31 @@ public class OrdemDeServicoDAO {
         }
         return ordens;
     }
+    public List<OrdemDeServico> listarOrdensAbertas() throws SQLException {
+        List<OrdemDeServico> ordens = new ArrayList<>();
+        String sql = "SELECT *" +
+                     "FROM ordem_servico os " +
+                     "WHERE os.status = 'ABERTA' " +
+                     "ORDER BY os.agenda ASC";
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                OrdemDeServico os = new OrdemDeServico();
+                os = populateOrdemDeServico(rs, os);
+//                os.setNumero(rs.getString("numero"));
+//                os.setAgenda(rs.getDate("agenda").toLocalDate());
+//                os.setStatus(EStatus.valueOf(rs.getString("status")));
+//                os.setTotal(rs.getBigDecimal("total"));
+//                Veiculo veiculo = new Veiculo();
+//                veiculo.setPlaca(rs.getString("placa"));
+//                os.setVeiculo(veiculo);
+                ordens.add(os);
+            }
+        } catch (SQLException | ExceptionLavacao ex) {
+            Logger.getLogger(OrdemDeServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ordens;
+    }
 
     public OrdemDeServico buscar(OrdemDeServico os) throws SQLException {
         String sql = "SELECT * FROM ordem_servico WHERE id = ?";
