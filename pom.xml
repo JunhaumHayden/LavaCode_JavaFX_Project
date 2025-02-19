@@ -96,6 +96,12 @@
             <artifactId>jasperreports-pdf</artifactId>
             <version>7.0.0</version>
         </dependency>
+        <!-- JasperReports chart themes library -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-chart-themes</artifactId>
+            <version>7.0.0</version>
+        </dependency>
     
     </dependencies>
 

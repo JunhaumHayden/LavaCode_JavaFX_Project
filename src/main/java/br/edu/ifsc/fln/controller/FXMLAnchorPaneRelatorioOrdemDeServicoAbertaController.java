@@ -39,7 +39,7 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author mpisching
  */
-public class FXMLAnchorPaneRelatorioOrdemDeServicoController implements Initializable {
+public class FXMLAnchorPaneRelatorioOrdemDeServicoAbertaController implements Initializable {
 
     @FXML
     private TableView<OrdemDeServico> tableView;
@@ -77,7 +77,7 @@ public class FXMLAnchorPaneRelatorioOrdemDeServicoController implements Initiali
         try {
             listaOrdemDeServicos = osDAO.listar();
         } catch (SQLException ex) {
-            Logger.getLogger(FXMLAnchorPaneRelatorioOrdemDeServicoController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FXMLAnchorPaneRelatorioOrdemDeServicoAbertaController.class.getName()).log(Level.SEVERE, null, ex);
             AlertDialog.exceptionMessage(ex);
             return;
         }
@@ -93,7 +93,7 @@ public class FXMLAnchorPaneRelatorioOrdemDeServicoController implements Initiali
     
     @FXML
     public void handleImprimir() throws JRException {
-        URL url = getClass().getResource("/report/RelatorioOs.jasper");
+        URL url = getClass().getResource("/report/RelatorioOsAberta.jasper");
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(url);
 
         //null: caso não existam filtros
