@@ -188,6 +188,9 @@ public class OrdemDeServico {
     public String getCliente() {
         return veiculo.getCliente().getNome() != null ? veiculo.getCliente().getNome() : "";
     }
+    public String getModelo() {
+        return veiculo.getModelo().getDescricao() != null ? veiculo.getModelo().getDescricao() : "";
+    }
 
     //O método toString() para fornecer uma representação de string da instância.
     @Override

@@ -25,7 +25,7 @@ public class JavaFXApp extends Application {
             System.out.println("Não foi possível carregar o formulário");
         }
 
-        Scene scene = new Scene(root, 600, 550);
+        Scene scene = new Scene(root, 750, 550);
 
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/IFSC_logo_vertical.png")));
         primaryStage.setTitle("Sistema de Lavação do IFSC Florianópolis");

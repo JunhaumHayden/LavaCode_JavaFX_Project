@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="385.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsc.fln.controller.FXMLAnchorPaneRelatorioOrdemDeServicoController">
+   <children>
+      <TableView fx:id="tableView" layoutX="-1.0" prefHeight="347.0" prefWidth="600.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+          <TableColumn fx:id="tableColumnOrdemDeServicoNumero" prefWidth="268.0" text="Ordem de Servico" />
+            <TableColumn fx:id="tableColumnOrdemDeServicoStatus" prefWidth="136.0" text="Status" />
+            <TableColumn fx:id="tableColumnOrdemDeServicoValor" prefWidth="101.0" text="Valor" />
+          <TableColumn fx:id="tableColumnOrdemDeServicoPlaca" prefWidth="123.0" text="Placa" />
+            <TableColumn fx:id="tableColumnOrdemDeServicoModelo" prefWidth="120.0" text="Modelo" />
+        </columns>
+      </TableView>
+      <Button fx:id="buttonImprimir" layoutX="513.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleImprimir" text="Imprimir" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="20.0" />
+   </children>
+</AnchorPane>
